@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productivity Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BenchNine:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <main class="dashboard">
+    <header class="dashboard-header">
+      <div>
+        <p class="eyebrow">Today</p>
+        <h1>Productivity Dashboard</h1>
+      </div>
+      <p class="quick-date" id="quickDate"></p>
+    </header>
+
+    <section class="dashboard-grid">
+      <section class="panel clock-panel" aria-label="Live clock">
+        <div class="panel-heading">
+          <p class="eyebrow">Clock</p>
+          <h2>Live Time</h2>
+        </div>
+
+        <div class="clock-container">
+          <section class="clock-digital">
+            <div class="date"></div>
+            <div class="time"></div>
+            <div class="day"></div>
+          </section>
+
+          <section class="clock-analog">
+            <div class="spear"></div>
+            <div class="hour"></div>
+            <div class="minute"></div>
+            <div class="second"></div>
+            <div class="dail"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="panel calculator-panel" aria-label="Calculator">
+        <div class="panel-heading">
+          <p class="eyebrow">Calculator</p>
+          <h2>Quick Math</h2>
+        </div>
+
+        <div class="calculator">
+          <input class="calculator-display" id="calculatorDisplay" type="text" value="0" aria-label="Calculator display" readonly>
+          <div class="calculator-buttons">
+            <button type="button" class="calc-key utility" data-action="clear">AC</button>
+            <button type="button" class="calc-key utility" data-action="backspace">⌫</button>
+            <button type="button" class="calc-key utility" data-value="%">%</button>
+            <button type="button" class="calc-key operator" data-value="/">÷</button>
+
+            <button type="button" class="calc-key" data-value="7">7</button>
+            <button type="button" class="calc-key" data-value="8">8</button>
+            <button type="button" class="calc-key" data-value="9">9</button>
+            <button type="button" class="calc-key operator" data-value="*">×</button>
+
+            <button type="button" class="calc-key" data-value="4">4</button>
+            <button type="button" class="calc-key" data-value="5">5</button>
+            <button type="button" class="calc-key" data-value="6">6</button>
+            <button type="button" class="calc-key operator" data-value="-">−</button>
+
+            <button type="button" class="calc-key" data-value="1">1</button>
+            <button type="button" class="calc-key" data-value="2">2</button>
+            <button type="button" class="calc-key" data-value="3">3</button>
+            <button type="button" class="calc-key operator" data-value="+">+</button>
+
+            <button type="button" class="calc-key wide" data-value="0">0</button>
+            <button type="button" class="calc-key" data-value=".">.</button>
+            <button type="button" class="calc-key equals" data-action="equals">=</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel notes-panel" aria-label="Notes">
+        <div class="panel-heading notes-heading">
+          <div>
+            <p class="eyebrow">Notes</p>
+            <h2>Focus List</h2>
+          </div>
+          <button type="button" class="clear-notes" id="clearNotes">Clear</button>
+        </div>
+
+        <textarea id="notesArea" class="notes-area" spellcheck="true" placeholder="Write tasks, reminders, or ideas here..."></textarea>
+      </section>
+    </section>
+  </main>
+
+  <script src="index.js"></script>
+</body>
+</html>
