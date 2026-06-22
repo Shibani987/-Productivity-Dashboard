@@ -33,7 +33,11 @@
   const quickDate = document.querySelector("#quickDate");
   const display = document.querySelector("#calculatorDisplay");
   const notesArea = document.querySelector("#notesArea");
+  const saveNotes = document.querySelector("#saveNotes");
   const clearNotes = document.querySelector("#clearNotes");
+  const notesStatus = document.querySelector("#notesStatus");
+  const savedNotes = document.querySelector("#savedNotes");
+  const notesStorageKey = "productivity-dashboard-notes";
 
   let expression = "0";
 
@@ -87,7 +91,7 @@
 
     secondDial.style.transform = `rotate(${-6 * second}deg)`;
     minuteDial.style.transform = `rotate(${-6 * minute}deg)`;
-    hourDial.style.transform = `rotate(${-30 * (hour % 12)}deg)`;
+    hourDial.style.transform = `rotate(${-30 * (hour % 12) - minute / 2}deg)`;
 
     timeText.textContent = time;
     dayText.textContent = days[now.getDay()];
@@ -105,6 +109,10 @@
 
     if (expression === "Error") {
       expression = "0";
+    }
+
+    if (operators.includes(value) && expression === "0" && value !== "-") {
+      return;
     }
 
     if (operators.includes(value) && operators.includes(lastCharacter)) {
@@ -145,6 +153,12 @@
     }
 
     if (action === "backspace") {
+      if (expression === "Error") {
+        expression = "0";
+        updateDisplay(expression);
+        return;
+      }
+
       expression = expression.length > 1 ? expression.slice(0, -1) : "0";
       updateDisplay(expression);
       return;
@@ -189,15 +203,114 @@
   }
 
   function setupNotes() {
-    notesArea.value = localStorage.getItem("productivity-dashboard-notes") || "";
+    let notes = [];
+
+    function loadNotes() {
+      try {
+        const savedValue = localStorage.getItem(notesStorageKey);
+
+        if (!savedValue) {
+          return [];
+        }
+
+        const parsedNotes = JSON.parse(savedValue);
+        return Array.isArray(parsedNotes) ? parsedNotes : [savedValue];
+      } catch (error) {
+        try {
+          const savedValue = localStorage.getItem(notesStorageKey);
+          return savedValue ? [savedValue] : [];
+        } catch (storageError) {
+          return [];
+        }
+      }
+    }
+
+    function saveNotesList() {
+      localStorage.setItem(notesStorageKey, JSON.stringify(notes));
+    }
+
+    function renderNotes() {
+      savedNotes.innerHTML = "";
+
+      if (notes.length === 0) {
+        savedNotes.innerHTML = '<p class="empty-notes">No saved notes yet.</p>';
+        return;
+      }
+
+      notes.forEach((note, index) => {
+        const noteCard = document.createElement("article");
+        const noteText = document.createElement("p");
+        const removeButton = document.createElement("button");
+
+        noteCard.className = "saved-note";
+        noteText.textContent = note;
+        removeButton.type = "button";
+        removeButton.className = "remove-note";
+        removeButton.textContent = "Remove";
+        removeButton.addEventListener("click", () => {
+          notes.splice(index, 1);
+
+          try {
+            saveNotesList();
+            notesStatus.textContent = "Saved note removed.";
+          } catch (error) {
+            notesStatus.textContent = "Note removed from the page.";
+          }
+
+          renderNotes();
+        });
+
+        noteCard.append(noteText, removeButton);
+        savedNotes.appendChild(noteCard);
+      });
+    }
+
+    try {
+      notes = loadNotes();
+      saveNotesList();
+    } catch (error) {
+      notes = [];
+    }
+
+    renderNotes();
 
     notesArea.addEventListener("input", () => {
-      localStorage.setItem("productivity-dashboard-notes", notesArea.value);
+      notesStatus.textContent = "Unsaved changes.";
+    });
+
+    saveNotes.addEventListener("click", () => {
+      const noteText = notesArea.value.trim();
+
+      if (!noteText) {
+        notesStatus.textContent = "Write a note before saving.";
+        notesArea.focus();
+        return;
+      }
+
+      notes.push(noteText);
+
+      try {
+        saveNotesList();
+        notesArea.value = "";
+        renderNotes();
+        notesStatus.textContent = "Notes saved.";
+        notesArea.focus();
+      } catch (error) {
+        notesStatus.textContent = "Could not save notes in this browser.";
+      }
     });
 
     clearNotes.addEventListener("click", () => {
+      notes = [];
       notesArea.value = "";
-      localStorage.removeItem("productivity-dashboard-notes");
+      try {
+        localStorage.removeItem(notesStorageKey);
+        renderNotes();
+        notesStatus.textContent = "All notes removed.";
+      } catch (error) {
+        renderNotes();
+        notesStatus.textContent = "Notes removed from the page.";
+      }
       notesArea.focus();
     });
   }

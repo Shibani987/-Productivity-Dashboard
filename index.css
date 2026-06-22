@@ -141,6 +141,13 @@ button {
   gap: 16px;
 }
 
+.notes-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
 .clock-container {
   position: relative;
   width: min(480px, 100%, 72vh);
@@ -449,13 +456,22 @@ button {
   grid-column: span 2;
 }
 
+.save-notes,
 .clear-notes {
   border: 1px solid rgba(180, 15, 20, 0.24);
   border-radius: 8px;
   padding: 9px 14px;
   background: #fff;
-  color: var(--red);
   font-weight: 700;
+}
+
+.save-notes {
+  border-color: rgba(15, 118, 110, 0.3);
+  color: var(--teal);
+}
+
+.clear-notes {
+  color: var(--red);
 }
 
 .notes-area {
@@ -479,6 +495,59 @@ button {
 .calculator-display:focus {
   border-color: var(--teal);
   box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.18);
+}
+
+.notes-status {
+  min-height: 20px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.saved-notes {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.saved-note {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+  border: 1px solid rgba(29, 31, 35, 0.12);
+  border-radius: 8px;
+  padding: 14px;
+  background: #fff;
+}
+
+.saved-note p,
+.empty-notes {
+  margin: 0;
+}
+
+.saved-note p {
+  color: var(--ink);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.empty-notes {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.remove-note {
+  border: 1px solid rgba(180, 15, 20, 0.24);
+  border-radius: 8px;
+  padding: 7px 10px;
+  background: #fff;
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 @media (max-width: 900px) {
@@ -547,5 +616,13 @@ button {
 
   .calc-key {
     min-height: 52px;
+  }
+
+  .saved-note {
+    grid-template-columns: 1fr;
+  }
+
+  .remove-note {
+    justify-self: start;
   }
 }

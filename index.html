@@ -53,19 +53,19 @@
           <input class="calculator-display" id="calculatorDisplay" type="text" value="0" aria-label="Calculator display" readonly>
           <div class="calculator-buttons">
             <button type="button" class="calc-key utility" data-action="clear">AC</button>
-            <button type="button" class="calc-key utility" data-action="backspace">⌫</button>
+            <button type="button" class="calc-key utility" data-action="backspace" aria-label="Backspace">&larr;</button>
             <button type="button" class="calc-key utility" data-value="%">%</button>
-            <button type="button" class="calc-key operator" data-value="/">÷</button>
+            <button type="button" class="calc-key operator" data-value="/">&divide;</button>
 
             <button type="button" class="calc-key" data-value="7">7</button>
             <button type="button" class="calc-key" data-value="8">8</button>
             <button type="button" class="calc-key" data-value="9">9</button>
-            <button type="button" class="calc-key operator" data-value="*">×</button>
+            <button type="button" class="calc-key operator" data-value="*">&times;</button>
 
             <button type="button" class="calc-key" data-value="4">4</button>
             <button type="button" class="calc-key" data-value="5">5</button>
             <button type="button" class="calc-key" data-value="6">6</button>
-            <button type="button" class="calc-key operator" data-value="-">−</button>
+            <button type="button" class="calc-key operator" data-value="-">&minus;</button>
 
             <button type="button" class="calc-key" data-value="1">1</button>
             <button type="button" class="calc-key" data-value="2">2</button>
@@ -85,10 +85,15 @@
             <p class="eyebrow">Notes</p>
             <h2>Focus List</h2>
           </div>
-          <button type="button" class="clear-notes" id="clearNotes">Clear</button>
+          <div class="notes-actions">
+            <button type="button" class="save-notes" id="saveNotes">Save</button>
+            <button type="button" class="clear-notes" id="clearNotes">Remove All</button>
+          </div>
         </div>
 
         <textarea id="notesArea" class="notes-area" spellcheck="true" placeholder="Write tasks, reminders, or ideas here..."></textarea>
+        <p class="notes-status" id="notesStatus" aria-live="polite">Notes are ready.</p>
+        <div class="saved-notes" id="savedNotes" aria-label="Saved notes"></div>
       </section>
     </section>
   </main>
